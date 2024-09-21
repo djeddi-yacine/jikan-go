@@ -6,43 +6,53 @@ import (
 	"time"
 )
 
+type Trailer struct {
+	YoutubeID string `json:"youtube_id"`
+	Url       string `json:"url"`
+	EmbedUrl  string `json:"embed_url"`
+}
+
+type Theme struct {
+	Openings []string `json:"openings"`
+	Endings  []string `json:"endings"`
+}
+
+type Broadcast struct {
+	Day      string `json:"day"`
+	Time     string `json:"time"`
+	Timezone string `json:"timezone"`
+	String   string `json:"string"`
+}
+
 type AnimeBase struct {
-	MalId   int     `json:"mal_id"`
-	Url     string  `json:"url"`
-	Images  Images3 `json:"images"`
-	Trailer struct {
-		YoutubeID string `json:"youtube_id"`
-		Url       string `json:"url"`
-		EmbedUrl  string `json:"embed_url"`
-	} `json:"trailer"`
-	Title         string    `json:"title"`
-	TitleEnglish  string    `json:"title_english"`
-	TitleJapanese string    `json:"title_japanese"`
-	TitleSynonyms []string  `json:"title_synonyms"`
-	Type          string    `json:"type"`
-	Source        string    `json:"source"`
-	Episodes      int       `json:"episodes"`
-	Status        string    `json:"status"`
-	Airing        bool      `json:"airing"`
-	Aired         DateRange `json:"aired"`
-	Duration      string    `json:"duration"`
-	Rating        string    `json:"rating"`
-	Score         float64   `json:"score"`
-	ScoredBy      int       `json:"scored_by"`
-	Rank          int       `json:"rank"`
-	Popularity    int       `json:"popularity"`
-	Members       int       `json:"members"`
-	Favorites     int       `json:"favorites"`
-	Synopsis      string    `json:"synopsis"`
-	Background    string    `json:"background"`
-	Season        string    `json:"season"`
-	Year          int       `json:"year"`
-	Broadcast     struct {
-		Day      string `json:"day"`
-		Time     string `json:"time"`
-		Timezone string `json:"timezone"`
-		String   string `json:"string"`
-	} `json:"broadcast"`
+	MalId          int       `json:"mal_id"`
+	Url            string    `json:"url"`
+	Images         Images3   `json:"images"`
+	Approved       bool      `json:"approved"`
+	Trailer        Trailer   `json:"trailer"`
+	Title          string    `json:"title"`
+	TitleEnglish   string    `json:"title_english"`
+	TitleJapanese  string    `json:"title_japanese"`
+	TitleSynonyms  []string  `json:"title_synonyms"`
+	Type           string    `json:"type"`
+	Source         string    `json:"source"`
+	Episodes       int       `json:"episodes"`
+	Status         string    `json:"status"`
+	Airing         bool      `json:"airing"`
+	Aired          DateRange `json:"aired"`
+	Duration       string    `json:"duration"`
+	Rating         string    `json:"rating"`
+	Score          float64   `json:"score"`
+	ScoredBy       int       `json:"scored_by"`
+	Rank           int       `json:"rank"`
+	Popularity     int       `json:"popularity"`
+	Members        int       `json:"members"`
+	Favorites      int       `json:"favorites"`
+	Synopsis       string    `json:"synopsis"`
+	Background     string    `json:"background"`
+	Season         string    `json:"season"`
+	Year           int       `json:"year"`
+	Broadcast      Broadcast `json:"broadcast"`
 	Producers      []MalItem `json:"producers"`
 	Licensors      []MalItem `json:"licensors"`
 	Studios        []MalItem `json:"studios"`
@@ -61,6 +71,27 @@ type AnimeById struct {
 func GetAnimeById(id int) (*AnimeById, error) {
 	res := &AnimeById{}
 	err := urlToStruct(fmt.Sprintf("/anime/%d", id), res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+// AnimeById struct
+type AnimeFullById struct {
+	Data struct {
+		*AnimeBase
+		Relations []Relation `json:"relations"`
+		Theme     Theme      `json:"theme"`
+		External  []External `json:"external"`
+		Streaming []External `json:"streaming"`
+	} `json:"data"`
+}
+
+// GetAnimeById returns anime by id
+func GetAnimeFullById(id int) (*AnimeFullById, error) {
+	res := &AnimeFullById{}
+	err := urlToStruct(fmt.Sprintf("/anime/%d/full", id), res)
 	if err != nil {
 		return nil, err
 	}
@@ -428,12 +459,14 @@ func GetAnimeReviews(id, page int) (*AnimeReviews, error) {
 	return res, nil
 }
 
+type Relation struct {
+	Relation string    `json:"relation"`
+	Entry    []MalItem `json:"entry"`
+}
+
 // AnimeRelations struct
 type AnimeRelations struct {
-	Data []struct {
-		Relation string    `json:"relation"`
-		Entry    []MalItem `json:"entry"`
-	} `json:"data"`
+	Data []Relation `json:"data"`
 }
 
 // GetAnimeRelations returns anime relations
@@ -464,12 +497,14 @@ func GetAnimeThemes(id int) (*AnimeThemes, error) {
 	return res, nil
 }
 
+type External struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
 // AnimeExternal struct
 type AnimeExternal struct {
-	Data []struct {
-		Name string `json:"name"`
-		Url  string `json:"url"`
-	} `json:"data"`
+	Data []External `json:"data"`
 }
 
 // GetAnimeExternal returns anime external
