@@ -1,21 +1,18 @@
 # Jikan-go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/darenliang/jikan-go.svg)](https://pkg.go.dev/github.com/darenliang/jikan-go)
-[![Go Report Card](https://goreportcard.com/badge/github.com/darenliang/jikan-go)](https://goreportcard.com/report/github.com/darenliang/jikan-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/djeddi-yacine/jikan-go.svg)](https://pkg.go.dev/github.com/djeddi-yacine/jikan-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/djeddi-yacine/jikan-go)](https://goreportcard.com/report/github.com/djeddi-yacine/jikan-go)
 
 A Go wrapper for the [Jikan v4 API](https://jikan.moe/).
 
-> **Notice:** Jikan v4 introduces breaking changes. You **will** need to make
-> changes to your code when upgrading to v1.2.0+.
-
 Documentation can be found
-at [go.dev](https://pkg.go.dev/github.com/darenliang/jikan-go).
+at [go.dev](https://pkg.go.dev/github.com/djeddi-yacine/jikan-go).
 
 ### Installation
 
-To install/update: `go install github.com/darenliang/jikan-go@latest`
+To install/update: `go install github.com/djeddi-yacine/jikan-go@latest`
 
-To import: `import "github.com/darenliang/jikan-go"` and use as `jikan`
+To import: `import "github.com/djeddi-yacine/jikan-go"` and use as `jikan`
 
 ### Usage
 
@@ -26,7 +23,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/darenliang/jikan-go"
+	"github.com/djeddi-yacine/jikan-go"
 )
 
 func main() {
@@ -56,7 +53,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/darenliang/jikan-go"
+	"github.com/djeddi-yacine/jikan-go"
 	"net/url"
 )
 
