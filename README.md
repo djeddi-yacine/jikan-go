@@ -5,9 +5,6 @@
 
 A Go wrapper for the [Jikan v4 API](https://jikan.moe/).
 
-Documentation can be found
-at [go.dev](https://pkg.go.dev/github.com/djeddi-yacine/jikan-go).
-
 ### Installation
 
 To install/update: `go install github.com/djeddi-yacine/jikan-go@latest`
